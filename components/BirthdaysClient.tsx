@@ -43,6 +43,10 @@ const BirthdaysClient = () => {
 
   const handleAddBirthday = async () => {
     try {
+      if (existingNames.includes(name)) {
+        alert('O nome ou sobrenome já existe.');
+        return;
+      }
      
 
       const response = await axios.post<Birthday>('https://maindo.pythonanywhere.com/api/birthdays/', {
@@ -97,7 +101,7 @@ const BirthdaysClient = () => {
   type="text"
   placeholder="Nome"
   className="border border-black p-2 mr-2 mb-2 md:mb-0 md:mr-4"
-  style={{ minWidth: '100px' }} // Adjust the minimum width of the input
+  style={{ minWidth: '100px', width: 'calc(100% - 16px)', color: 'black' }} // Adjust width and color for all devices
   value={name}
   onChange={(e) => setName(e.target.value)}
 />
@@ -105,10 +109,11 @@ const BirthdaysClient = () => {
   type="text"
   placeholder="Sobrenome"
   className="border border-black p-2 mr-2 mb-2 md:mb-0 md:mr-4"
-  style={{ minWidth: '100px' }} // Adjust the minimum width of the input
+  style={{ minWidth: '100px', width: 'calc(100% - 16px)', color: 'black' }} // Adjust width and color for all devices
   value={surname}
   onChange={(e) => setSurname(e.target.value)}
 />
+
 
         <select
           className="border border-gray-300 p-2 mr-2 mb-2 md:mb-0 md:mr-4"
