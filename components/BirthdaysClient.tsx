@@ -167,7 +167,9 @@ const BirthdaysClient = () => {
     })
     .map(([month, count]) => (
       <div key={month} className="bg-white rounded-lg shadow-md p-6">
-        <h4 className="text-lg font-bold mb-2">{month}</h4>
+        <h4 className="text-lg font-bold mb-2"
+         style={{ minWidth: '100px', width: 'calc(100% - 16px)', color: 'black' }}
+        >{month}</h4>
         <ul>
           {birthdays
             .filter((birthday) => birthday.month === month)
@@ -178,7 +180,9 @@ const BirthdaysClient = () => {
                     <span className="text-gray-600 font-bold">{birthday.day}</span>
                   </div>
                   <div>
-                    <p className="font-semibold text-base">{birthday.name} {birthday.surname}</p>
+                    <p className="font-semibold text-base"
+                     style={{ minWidth: '100px', width: 'calc(100% - 16px)', color: 'black' }}
+                    >{birthday.name} {birthday.surname}</p>
                     <p className="text-gray-600 text-sm">Aniversário: {birthday.month}/{birthday.day}</p>
                   </div>
                 </div>
