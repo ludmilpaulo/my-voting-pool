@@ -51,11 +51,16 @@ const BirthdaysClient = () => {
         day,
       });
       alert('Aniversário adicionado com sucesso.');
+      setName('');
+      setSurname('');
+      setSelectedMonth('');
+      setDay('');
       fetchBirthdays();
     } catch (error) {
-      console.error('Error adding birthday:', error);
+      alert('preeche tos campos ');
     }
   };
+
 
   const countBirthdaysByMonth = () => {
     const counts: { [key: string]: number } = {};
