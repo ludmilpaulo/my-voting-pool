@@ -137,21 +137,21 @@ const BirthdaysClient = () => {
       <div>
         <h2 className="text-lg font-bold mb-2">Anivers&aacute;rios:</h2>
         <table className="w-full mb-4">
-          <thead>
-            <tr>
-              <th>Mês</th>
-              <th>Número de Pessoas</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(monthCounts).map(([month, count]) => (
-              <tr key={month}>
-                <td>{month}</td>
-                <td>{count}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+  <thead>
+    <tr>
+      <th className="text-center">Mês</th>
+      <th className="text-center">Número de Pessoas</th>
+    </tr>
+  </thead>
+  <tbody>
+    {Object.entries(monthCounts).map(([month, count]) => (
+      <tr key={month}>
+        <td className="text-center">{month}</td>
+        <td className="text-center">{count}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
         <h3 className="text-lg font-bold mb-2">Detalhes:</h3>
 {Object.entries(monthCounts).map(([month, count]) => (
   <div key={month}>
