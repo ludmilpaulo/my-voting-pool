@@ -1,4 +1,3 @@
-// components/BirthdaysClient.tsx
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -14,19 +13,24 @@ interface Birthday {
 const BirthdaysClient = () => {
   const [name, setName] = useState<string>('');
   const [surname, setSurname] = useState<string>('');
-  const [month, setMonth] = useState<string>('');
+  const [selectedMonth, setSelectedMonth] = useState<string>('');
   const [day, setDay] = useState<string>('');
   const [birthdays, setBirthdays] = useState<Birthday[]>([]);
   const [monthCounts, setMonthCounts] = useState<{ [key: string]: number }>({});
+  const [existingNames, setExistingNames] = useState<string[]>([]);
+  const [existingSurnames, setExistingSurnames] = useState<string[]>([]);
 
   useEffect(() => {
     fetchBirthdays();
   }, []);
 
-  useEffect(() => {
-    countBirthdaysByMonth();
-  }, [birthdays, countBirthdaysByMonth]);
+
   
+
+  useEffect(() => {
+    // Update existing names and surnames whenever birthdays change
+    updateExistingNamesAndSurnames();
+  }, [birthdays]);
 
   const fetchBirthdays = async () => {
     try {
@@ -39,10 +43,16 @@ const BirthdaysClient = () => {
 
   const handleAddBirthday = async () => {
     try {
+      // Check if the name and surname are not already existing
+      if (existingNames.includes(name) || existingSurnames.includes(surname)) {
+        console.error('Name or surname already exists.');
+        return;
+      }
+
       const response = await axios.post<Birthday>('https://maindo.pythonanywhere.com/api/birthdays/', {
         name,
         surname,
-        month,
+        month: selectedMonth,
         day,
       });
       console.log('Birthday added successfully:', response.data);
@@ -62,9 +72,30 @@ const BirthdaysClient = () => {
     setMonthCounts(counts);
   };
 
+  useEffect(() => {
+    countBirthdaysByMonth();
+  }, [birthdays, countBirthdaysByMonth]);
+
+  const updateExistingNamesAndSurnames = () => {
+    const names: string[] = [];
+    const surnames: string[] = [];
+    birthdays.forEach((birthday) => {
+      names.push(birthday.name);
+      surnames.push(birthday.surname);
+    });
+    setExistingNames(names);
+    setExistingSurnames(surnames);
+  };
+
+  const months = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril',
+    'Maio', 'Junho', 'Julho', 'Agosto',
+    'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Grupo de votação de aniversário da família Jorge</h1>
+      <h1 className="text-2xl font-bold mb-4">Grupo de votação de aniversário de família</h1>
       <div className="flex flex-col md:flex-row mb-4">
         <input
           type="text"
@@ -80,13 +111,16 @@ const BirthdaysClient = () => {
           value={surname}
           onChange={(e) => setSurname(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Mês"
+        <select
           className="border border-gray-300 p-2 mr-2 mb-2 md:mb-0 md:mr-4"
-          value={month}
-          onChange={(e) => setMonth(e.target.value)}
-        />
+          value={selectedMonth}
+          onChange={(e) => setSelectedMonth(e.target.value)}
+        >
+          <option value="">Selecione o mês</option>
+          {months.map((month, index) => (
+            <option key={index} value={month}>{month}</option>
+          ))}
+        </select>
         <input
           type="text"
           placeholder="Dia"
