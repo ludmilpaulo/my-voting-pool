@@ -153,13 +153,21 @@ const BirthdaysClient = () => {
           </tbody>
         </table>
         <h3 className="text-lg font-bold mb-2">Detalhes:</h3>
-        <ul>
-          {birthdays.map((birthday: Birthday) => (
-            <li key={birthday.id}>
-              {birthday.name} {birthday.surname} Aniversário: {birthday.month}/{birthday.day}
-            </li>
-          ))}
-        </ul>
+{Object.entries(monthCounts).map(([month, count]) => (
+  <div key={month}>
+    <h4 className="text-lg font-bold mb-2">{month}</h4>
+    <ul>
+      {birthdays
+        .filter((birthday) => birthday.month === month)
+        .map((birthday: Birthday) => (
+          <li key={birthday.id}>
+            {birthday.name} {birthday.surname} Aniversário: {birthday.month}/{birthday.day}
+          </li>
+        ))}
+    </ul>
+  </div>
+))}
+
       </div>
     </div>
   );
