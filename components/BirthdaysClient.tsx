@@ -172,13 +172,13 @@ const BirthdaysClient = () => {
           {birthdays
             .filter((birthday) => birthday.month === month)
             .map((birthday: Birthday) => (
-              <li key={birthday.id} className="mb-2">
+              <li key={birthday.id} className="mb-4">
                 <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
                     <span className="text-gray-600 font-bold">{birthday.day}</span>
                   </div>
                   <div>
-                    <p className="font-semibold text-black">{birthday.name} {birthday.surname}</p>
+                    <p className="font-semibold text-base">{birthday.name} {birthday.surname}</p>
                     <p className="text-gray-600 text-sm">Aniversário: {birthday.month}/{birthday.day}</p>
                   </div>
                 </div>
