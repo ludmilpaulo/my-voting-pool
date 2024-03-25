@@ -24,11 +24,7 @@ const BirthdaysClient = () => {
     fetchBirthdays();
   }, []);
 
-
-  
-
   useEffect(() => {
-    // Update existing names and surnames whenever birthdays change
     updateExistingNamesAndSurnames();
   }, [birthdays]);
 
@@ -43,11 +39,10 @@ const BirthdaysClient = () => {
 
   const handleAddBirthday = async () => {
     try {
-      if (existingNames.includes(name)) {
-        alert('O nome ou sobrenome já existe.');
+      if (existingNames.includes(name) && existingSurnames.includes(surname)) {
+        alert('O nome e sobrenome já existem.');
         return;
       }
-     
 
       const response = await axios.post<Birthday>('https://maindo.pythonanywhere.com/api/birthdays/', {
         name,
@@ -55,8 +50,7 @@ const BirthdaysClient = () => {
         month: selectedMonth,
         day,
       });
-      alert('Aniversário adicionado com sucesso:');
-      // Refresh the list of birthdays after adding a new one
+      alert('Aniversário adicionado com sucesso.');
       fetchBirthdays();
     } catch (error) {
       console.error('Error adding birthday:', error);
@@ -74,7 +68,7 @@ const BirthdaysClient = () => {
 
   useEffect(() => {
     countBirthdaysByMonth();
-  }, [birthdays, countBirthdaysByMonth]);
+  }, [birthdays]);
 
   const updateExistingNamesAndSurnames = () => {
     const names: string[] = [];
@@ -97,24 +91,22 @@ const BirthdaysClient = () => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Grupo de votação de aniversário de família</h1>
       <div className="flex flex-col md:flex-row mb-4">
-      <input
-  type="text"
-  placeholder="Nome"
-  className="border border-black p-2 mr-2 mb-2 md:mb-0 md:mr-4"
-  style={{ minWidth: '100px', width: 'calc(100% - 16px)', color: 'black' }} // Adjust width and color for all devices
-  value={name}
-  onChange={(e) => setName(e.target.value)}
-/>
-<input
-  type="text"
-  placeholder="Sobrenome"
-  className="border border-black p-2 mr-2 mb-2 md:mb-0 md:mr-4"
-  style={{ minWidth: '100px', width: 'calc(100% - 16px)', color: 'black' }} // Adjust width and color for all devices
-  value={surname}
-  onChange={(e) => setSurname(e.target.value)}
-/>
-
-
+        <input
+          type="text"
+          placeholder="Nome"
+          className="border border-black p-2 mr-2 mb-2 md:mb-0 md:mr-4"
+          style={{ minWidth: '100px', width: 'calc(100% - 16px)', color: 'black' }}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Sobrenome"
+          className="border border-black p-2 mr-2 mb-2 md:mb-0 md:mr-4"
+          style={{ minWidth: '100px', width: 'calc(100% - 16px)', color: 'black' }}
+          value={surname}
+          onChange={(e) => setSurname(e.target.value)}
+        />
         <select
           className="border border-gray-300 p-2 mr-2 mb-2 md:mb-0 md:mr-4"
           value={selectedMonth}
@@ -125,13 +117,16 @@ const BirthdaysClient = () => {
             <option key={index} value={month}>{month}</option>
           ))}
         </select>
-        <input
-          type="text"
-          placeholder="Dia"
+        <select
           className="border border-gray-300 p-2 mr-2 mb-2 md:mb-0 md:mr-4"
           value={day}
           onChange={(e) => setDay(e.target.value)}
-        />
+        >
+          <option value="">Selecione o dia</option>
+          {Array.from({ length: 31 }, (_, index) => index + 1).map((day) => (
+            <option key={day} value={day < 10 ? `0${day}` : `${day}`}>{day < 10 ? `0${day}` : `${day}`}</option>
+          ))}
+        </select>
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
           onClick={handleAddBirthday}
@@ -140,8 +135,7 @@ const BirthdaysClient = () => {
         </button>
       </div>
       <div>
-      <h2 className="text-lg font-bold mb-2">Anivers&aacute;rios:</h2>
-
+        <h2 className="text-lg font-bold mb-2">Anivers&aacute;rios:</h2>
         <table className="w-full mb-4">
           <thead>
             <tr>
