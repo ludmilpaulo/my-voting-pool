@@ -157,29 +157,39 @@ const BirthdaysClient = () => {
 </table>
         <h3 className="text-lg font-bold mb-2">Detalhes:</h3>
 <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
-  {Object.entries(monthCounts).map(([month, count]) => (
-    <div key={month} className="bg-white rounded-lg shadow-md p-6">
-      <h4 className="text-lg font-bold mb-2">{month}</h4>
-      <ul>
-        {birthdays
-          .filter((birthday) => birthday.month === month)
-          .map((birthday: Birthday) => (
-            <li key={birthday.id} className="mb-2">
-              <div className="flex items-center">
-                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-3">
-                  <span className="text-gray-600 font-bold">{birthday.day}</span>
+  {Object.entries(monthCounts)
+    .sort(([monthA], [monthB]) => {
+      const monthsOrder = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+      ];
+      return monthsOrder.indexOf(monthA) - monthsOrder.indexOf(monthB);
+    })
+    .map(([month, count]) => (
+      <div key={month} className="bg-white rounded-lg shadow-md p-6">
+        <h4 className="text-lg font-bold mb-2">{month}</h4>
+        <ul>
+          {birthdays
+            .filter((birthday) => birthday.month === month)
+            .map((birthday: Birthday) => (
+              <li key={birthday.id} className="mb-2">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                    <span className="text-gray-600 font-bold">{birthday.day}</span>
+                  </div>
+                  <div>
+                    <p className="font-semibold">{birthday.name} {birthday.surname}</p>
+                    <p className="text-gray-600 text-sm">Aniversário: {birthday.month}/{birthday.day}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-semibold">{birthday.name} {birthday.surname}</p>
-                  <p className="text-gray-600 text-sm">Aniversário: {birthday.month}/{birthday.day}</p>
-                </div>
-              </div>
-            </li>
-          ))}
-      </ul>
-    </div>
-  ))}
+              </li>
+            ))}
+        </ul>
+      </div>
+    ))}
 </div>
+
+
 
 
       </div>
