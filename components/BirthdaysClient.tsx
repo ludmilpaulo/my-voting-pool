@@ -178,7 +178,7 @@ const BirthdaysClient = () => {
                     <span className="text-gray-600 font-bold">{birthday.day}</span>
                   </div>
                   <div>
-                    <p className="font-semibold">{birthday.name} {birthday.surname}</p>
+                    <p className="font-semibold text-black">{birthday.name} {birthday.surname}</p>
                     <p className="text-gray-600 text-sm">Aniversário: {birthday.month}/{birthday.day}</p>
                   </div>
                 </div>
