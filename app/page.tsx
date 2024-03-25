@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Birthdays from "@/components/Birthdays";
+
 import BirthdaysClient from '@/components/BirthdaysClient';
 
 export default function Home() {
