@@ -43,11 +43,7 @@ const BirthdaysClient = () => {
 
   const handleAddBirthday = async () => {
     try {
-      // Check if the name and surname are not already existing
-      if (existingNames.includes(name) || existingSurnames.includes(surname)) {
-        console.error('Name or surname already exists.');
-        return;
-      }
+     
 
       const response = await axios.post<Birthday>('https://maindo.pythonanywhere.com/api/birthdays/', {
         name,
@@ -55,7 +51,7 @@ const BirthdaysClient = () => {
         month: selectedMonth,
         day,
       });
-      console.log('Birthday added successfully:', response.data);
+      alert('Aniversário adicionado com sucesso:');
       // Refresh the list of birthdays after adding a new one
       fetchBirthdays();
     } catch (error) {
@@ -97,20 +93,23 @@ const BirthdaysClient = () => {
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Grupo de votação de aniversário de família</h1>
       <div className="flex flex-col md:flex-row mb-4">
-        <input
-          type="text"
-          placeholder="Nome"
-          className="border border-gray-300 p-2 mr-2 mb-2 md:mb-0 md:mr-4"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Sobrenome"
-          className="border border-gray-300 p-2 mr-2 mb-2 md:mb-0 md:mr-4"
-          value={surname}
-          onChange={(e) => setSurname(e.target.value)}
-        />
+      <input
+  type="text"
+  placeholder="Nome"
+  className="border border-black p-2 mr-2 mb-2 md:mb-0 md:mr-4"
+  style={{ minWidth: '100px' }} // Adjust the minimum width of the input
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+/>
+<input
+  type="text"
+  placeholder="Sobrenome"
+  className="border border-black p-2 mr-2 mb-2 md:mb-0 md:mr-4"
+  style={{ minWidth: '100px' }} // Adjust the minimum width of the input
+  value={surname}
+  onChange={(e) => setSurname(e.target.value)}
+/>
+
         <select
           className="border border-gray-300 p-2 mr-2 mb-2 md:mb-0 md:mr-4"
           value={selectedMonth}
